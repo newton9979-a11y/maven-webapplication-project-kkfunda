@@ -1,7 +1,7 @@
 Piprline{
 
     tools{
-        Meven 3.9.9
+        Meven-3.9.9
     }
 
     stages{
