@@ -10,7 +10,8 @@ Piprline{
                 echo 'checking tthe out source code...'
 
                 git(
-                    branch: 'master'
+                    branch: 'master',
+                    newton9979-a11y: 'newton9979-a11y',
                     url: 'https://github.com/newton9979-a11y/maven-webapplication-project-kkfunda.git'
                 )
             }
