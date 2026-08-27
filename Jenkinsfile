@@ -6,7 +6,7 @@ pipeline{
     }
 
     stages{
-        stage('code checkout')
+        stage('code checkout'){
             steps{
                 echo 'checking tthe out source code...'
 
@@ -16,6 +16,7 @@ pipeline{
                     url: 'https://github.com/newton9979-a11y/maven-webapplication-project-kkfunda.git'
                 )
             }
+        }
     }
         
 }
