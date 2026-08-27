@@ -5,9 +5,9 @@ Piprline{
     }
 
     stages{
-        stage("code checkout")
+        stage('code checkout')
             steps{
-                echo "checking tthe out source code..."
+                echo 'checking tthe out source code...'
 
                 git(
                     branch: 'master'
