@@ -13,8 +13,6 @@ pipeline {
 
         stage('Code Checkout') {
             steps {
-                echo 'Checking out source code...'
-
                 git branch: 'master',
                     url: 'https://github.com/newton9979-a11y/spring-boot-mongo-docker-kkfunda.git'
             }
@@ -23,10 +21,7 @@ pipeline {
         stage('Verify Tools') {
             steps {
                 sh '''
-                    echo "Java Version"
                     java -version
-
-                    echo "Maven Version"
                     mvn -version
                 '''
             }
@@ -47,11 +42,19 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh '''
-                        mvn sonar:sonar \
-                          -Dsonar.projectKey=spring-boot-mongo \
-                          -Dsonar.projectName=spring-boot-mongo
-                    '''
+                    withCredentials([
+                        string(
+                            credentialsId: 'sonartoken',
+                            variable: 'SONAR_TOKEN'
+                        )
+                    ]) {
+                        sh '''
+                            mvn sonar:sonar \
+                              -Dsonar.projectKey=spring-boot-mongo \
+                              -Dsonar.projectName=spring-boot-mongo \
+                              -Dsonar.token=$SONAR_TOKEN
+                        '''
+                    }
                 }
             }
         }
@@ -59,16 +62,11 @@ pipeline {
 
     post {
         success {
-            echo '====================================='
             echo 'Pipeline completed successfully!'
-            echo '====================================='
         }
 
         failure {
-            echo '====================================='
-            echo 'Pipeline failed!'
-            echo 'Check Jenkins console output.'
-            echo '====================================='
+            echo 'Pipeline failed. Check Jenkins console output.'
         }
     }
 }
