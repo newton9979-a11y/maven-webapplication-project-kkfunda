@@ -1,4 +1,3 @@
-//
 pipeline {
     agent any
 
@@ -24,10 +23,10 @@ pipeline {
         stage('Verify Tools') {
             steps {
                 sh '''
-                    echo "Java Version:"
+                    echo "Java Version"
                     java -version
 
-                    echo "Maven Version:"
+                    echo "Maven Version"
                     mvn -version
                 '''
             }
@@ -50,8 +49,8 @@ pipeline {
                 withSonarQubeEnv('sonarqube') {
                     sh '''
                         mvn sonar:sonar \
-                        -Dsonar.projectKey=spring-boot-mongo \
-                        -Dsonar.projectName=spring-boot-mongo
+                          -Dsonar.projectKey=spring-boot-mongo \
+                          -Dsonar.projectName=spring-boot-mongo
                     '''
                 }
             }
@@ -60,11 +59,16 @@ pipeline {
 
     post {
         success {
+            echo '====================================='
             echo 'Pipeline completed successfully!'
+            echo '====================================='
         }
 
         failure {
-            echo 'Pipeline failed. Please check the Jenkins console log.'
+            echo '====================================='
+            echo 'Pipeline failed!'
+            echo 'Check Jenkins console output.'
+            echo '====================================='
         }
     }
 }
