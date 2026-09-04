@@ -21,7 +21,10 @@ pipeline {
         stage('Verify Tools') {
             steps {
                 sh '''
+                    echo "Java:"
                     java -version
+
+                    echo "Maven:"
                     mvn -version
                 '''
             }
@@ -49,7 +52,7 @@ pipeline {
                         )
                     ]) {
                         sh '''
-                            mvn sonar:sonar \
+                            mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                               -Dsonar.projectKey=spring-boot-mongo \
                               -Dsonar.projectName=spring-boot-mongo \
                               -Dsonar.token=$SONAR_TOKEN
@@ -62,11 +65,16 @@ pipeline {
 
     post {
         success {
+            echo '====================================='
             echo 'Pipeline completed successfully!'
+            echo '====================================='
         }
 
         failure {
-            echo 'Pipeline failed. Check Jenkins console output.'
+            echo '====================================='
+            echo 'Pipeline failed!'
+            echo 'Check Jenkins console output.'
+            echo '====================================='
         }
     }
 }
